@@ -183,5 +183,33 @@ static class buildbinarytree{
 
         
     }
+    public static int getheight(Node root){
+        if(root==null){
+            return 0;
+        }
+        return(Math.max(root.left.val,root.right.val)+1);
+    }
+    public static int countnodes(Node root){
+        int count=0;
+        if(root==null){
+            return 0;
+        }
+        // countnodes(root.left);
+        // count++;
+        // countnodes(root.right);
+        // return count;
+        int left=countnodes(root.left);
+        int right=countnodes(root.right);
+        return left+right+1;
+
+    }
+    public static int sumnodes(Node root){
+        if(root==null){
+            return 0;
+        }
+        int left=sumnodes(root.left);
+        int right=sumnodes(root.right);
+        return left+right+root.val;
+    }
 
 }
