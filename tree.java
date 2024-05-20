@@ -212,4 +212,49 @@ static class buildbinarytree{
         return left+right+root.val;
     }
 
+    public static int diameter(Node root){
+        //number of nodes between the longest part
+        //find the maximum between the right diameter ,left diamter and the selfdiameter
+        //another way of doing this is by creating a class called info which conatins diamter and height as attributes similar to flag in postorder where you create a node and flag for the Flagnode
+        if(root==null){
+            return 0;
+        }
+        int leftdia=diameter(root.left);
+        int leftheight=getheight(root.left);
+        int rightdia=diameter(root.right);
+        int rightheight=getheight(root.right);
+        int selfdia=rightheight+leftheight+1;
+        return Math.max(selfdia,Math.max(rightdia,leftdia));
+    }
+    public static boolean isidentical(Node root,Node subroot){
+        //to check if subtree is present in a tree
+        if(root==null||subroot==null){
+            return true;
+        }
+        else if(root==null||subroot==null||root.val!=subroot.val){
+            return false;
+        }
+        if(!isidentical(root.left, subroot.left)){
+            return false;
+        }
+        if(!isidentical(root.right, subroot.right)){
+            return false;
+        }
+        return true;
+
+    }
+    public static boolean issubtree(Node root,Node subroot){
+        if(root==null){
+            return false;
+        }
+        if(root.val==subroot.val){
+            if(isidentical(root, subroot)){
+                return true;
+            }
+        }
+        return issubtree(root.left,subroot.left)||issubtree(root.right,subroot.right);
+    }
+    //top view use a hashmap
+    
+
 }
