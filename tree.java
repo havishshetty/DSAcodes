@@ -1,4 +1,6 @@
 import java.util.*;
+
+
 public class tree{
     static class Node{
         int val;
@@ -255,6 +257,125 @@ static class buildbinarytree{
         return issubtree(root.left,subroot.left)||issubtree(root.right,subroot.right);
     }
     //top view use a hashmap
+    //horizontal distance 
+    //use a queue with the class Info which has node and Horizontal distance HD of root is 0\
+    static class Info{
+        int hd;
+        Node root;
+        Info(int hd,Node root){
+            this.hd=hd;
+            this.root=root;
+        }
     
+    public static void topview(Node root){
+        int min=0,max=0;
+        Queue <Info> q=new LinkedList<>();
+        HashMap<Integer,Node> hm=new HashMap<>();
+        Info curr;
+        q.add(new Info(0,root));
+
+        while(!q.isEmpty()){
+            curr=q.poll();
+            if(!hm.containsKey(curr.hd)){
+                hm.put(curr.hd,curr.root);
+            }
+            if(curr.root.left!=null){
+                q.add(new Info (curr.hd,curr.root.left));
+                min=Math.min(curr.hd-1,min);
+            }
+            if(curr.root.right!=null){
+                q.add(new Info (curr.hd,curr.root.right));
+                max=Math.max(curr.hd+1,max);
+            }
+
+        }
+        for(int i=min;i<max;i++){
+            System.out.println(hm.get(i));
+        }
+
+
+    }
+ public static ArrayList<Integer> kthLevel(Node root, int k) {
+    ArrayList<Integer> al = new ArrayList<>();
+    int level = 0; // Starting level from 0
+    if (k < 0 || root == null) {
+        return al;
+    }
+    Queue<Node> q = new LinkedList<>();
+    q.add(root);
+    while (!q.isEmpty()) {
+        int size = q.size(); // Store the size of the current level
+        level++;
+        if (level == k) {
+            for (int i = 0; i < size; i++) {
+                Node curr = q.poll();
+                al.add(curr.val);
+                if (curr.left != null) {
+                    q.add(curr.left);
+                }
+                if (curr.right != null) {
+                    q.add(curr.right);
+                }
+            }
+            return al; // Return the result once we reach the k-th level
+        } else {
+            // Traverse nodes at the current level without adding them to the result
+            for (int i = 0; i < size; i++) {
+                Node curr = q.poll();
+                if (curr.left != null) {
+                    q.add(curr.left);
+                }
+                if (curr.right != null) {
+                    q.add(curr.right);
+                }
+            }
+        }
+    }
+    return al; // Return empty list if k is greater than the height of the tree
+}
+
+//LCA
+//Basically make an array of the paths from the root to the node the last common one between the both the path1 and path2 is the LCA
+public static Node LCA(Node root,int n1,int n2){
+
+    ArrayList<Node> p1=new ArrayList<>();
+    ArrayList<Node> p2=new ArrayList<>();
+    getpath(root,n1,p1);
+    getpath(root,n2,p2);
+    int i;
+    for(i=0;i<p1.size()&& i<p2.size();i++){
+        if(p1.get(i)!=p2.get(i)){
+            break;
+        }
+
+
+    }
+    return p1.get(i-1);
+
+
+}
+
+public static boolean getpath(Node root,int n,ArrayList<Node> p){
+    if(root==null){
+        return false;
+    }
+    p.add(root);
+    if(root.val==n){
+        return true;
+    }
+    boolean foundleft=getpath(root.left, n, p);
+    boolean foundright=getpath(root.right, n, p);
+    if(foundleft||foundright){
+        return true;
+    }
+    p.remove(p.size()-1);
+    return false;
+
+
+
+}
+
+
+    }
 
 }
