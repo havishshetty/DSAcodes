@@ -111,5 +111,82 @@ public class recursion{
         return ans;
     }
 
+    public static int tilling(int n){
+        if(n==0||n==1){
+            return 1;
+        }
+        int horizontal=2*tilling(n-2);
+        int vertical=2*tilling(n-1);
+        return horizontal+vertical;
+    }
+
+    public static void removedup(String s,int idx,StringBuilder sb,boolean map[]){
+        if(idx==s.length()){
+            System.out.println(sb);
+            return;
+        }
+        char curr=s.charAt(idx);
+        if(map[curr-'a']==true){//duplicate
+            removedup(s, idx+1, sb, map);
+
+        }
+        else{
+            map[curr='a']=true;
+            removedup(s, idx+1, sb.append(s.charAt(curr)), map);
+        }
+
+    }
+
+    public static int frndpair(int n){
+        if(n==1||n==2){
+            return n;
+        }
+        int single=frndpair(n-1);
+        int doubleway=frndpair(n-2);
+        int pairway=doubleway*(n-1);//(n-1) ppl to choose from
+        return single+pairway;
+
+    }
+
+    public static int nfibnumber(int n){
+        if(n==0||n==1){
+            System.out.println(n);
+            return n;
+        }
+        int fibnm1=nfibnumber(n-1);
+        int fibnm2=nfibnumber(n-2);
+        int number=fibnm1+fibnm2;
+        System.out.println(number);
+        return fibnm1+fibnm2;
+
+    }
+
+    public static void noconsecutive1(int n,int lastplace,StringBuilder str){
+        if(n==0){
+            System.out.println(n);
+            return;
+        }
+        if(lastplace==0){
+            noconsecutive1(n-1, 0,str.append(0));
+            noconsecutive1(n-1, 1,str.append(1));
+        }
+        else{
+            noconsecutive1(n-1, 0,str.append(0));
+        }
+    }
+
+    public static void tofh(int n,String src,String aux,String dst){
+        if(n==1){
+            System.out.println("Tranferred "+n+" disk from "+src+" to "+dst);
+            return;
+        }
+        tofh(n-1, src, aux, dst);
+        System.out.println("Tranferred "+n+" disk from "+src+" to "+dst);
+        tofh(n-1, aux, src, dst);
+
+    }
+    
+
+
 
 }
