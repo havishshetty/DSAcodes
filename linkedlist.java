@@ -184,6 +184,51 @@ public class linkedlist {
         return slow;
     }
 
+    public static boolean isCycle(){
+        Node fast=head;
+        Node slow=head;
+        while(fast!=null && fast.next!=null){
+            if(slow==fast){
+                return true;
+            }
+            fast=fast.next.next;
+            slow=slow.next;
+        }
+        return false;
+    }
+
+//remove loop find last node and make it point towards null
+//first detect cycle
+//as soon as cycle is detected inc both fast and slow by 1 and make slow=head;
+//point of meeting will be intersection
+
+public static void removecycle(){
+    Node fast=head;
+    Node slow=head;
+    boolean cycle=false;
+    while(fast!=null && fast.next!=null){
+        fast=fast.next.next;
+        slow=slow.next;
+        if(slow==fast){
+            cycle=true;
+            break;
+        }
+    }
+    if(cycle==false){
+        return;
+    }
+    slow=head;
+    Node prev=null;
+    while(slow!=fast){
+        prev=fast;
+        fast=fast.next;
+        slow=slow.next;
+    }
+    prev.next=null;
+}
+
+
+
     
     
 }
