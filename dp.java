@@ -222,8 +222,8 @@ public class dp{
                 int p=price[i-1];
                 int c=totRod;
                 //valid
-                if(c<=j){
-                    dp[i][j]=Math.max(p+dp[i][j-c],dp[i-1][j]);
+                if(l<=j){
+                    dp[i][j]=Math.max(p+dp[i][j-l],dp[i-1][j]);
                 }
                 else{
                     dp[i][j]=dp[i-1][j];
@@ -233,6 +233,167 @@ public class dp{
 
         return dp[n][totRod];
     }
+
+//LCS Longest Common Subsequence
+
+    public static int lcsrecursion(String m,String n,int n1,int n2){
+        if(n1==0 || n2==0){
+            return 0;
+        }
+        if(m.charAt(n1)==n.charAt(n2)){
+            return lcs(m,n,n1-1,n2-1) +1;
+        }
+        else{
+            int ans1=lcs(m,n,n1-1,n2);
+            int ans2=lcs(m,n,n1,n2-1);
+
+            return Math.max(ans1,ans2);
+        }
+
+    }
+
+    public static int lcstab(String m,String n,int n1,int n2){
+        if(n1==0 || n2==0){
+            return 0;
+        }
+        int dp[][]=new dp[n1+1][n2+1];
+
+        for(int i=0;i<n1;i++){
+            for(int j=0;j<n2;j++){
+                if(i==0 || j==0){
+                    dp[i][j]=0;
+                }
+            }
+        }
+        for(int i=1;i<n1+1;i++){
+            for(int j=1;j<n2+1;j++) {
+                if(m.charAt(i-1)==m.charAt(j-i)){
+                    dp[i][j]=dp[i-1][j-1]+1;
+                }
+                else{
+                    int a1=dp[i-1][j];
+                    int a2=dp[i][j-1];
+                    dp[i][j]=Math.max(a1,a2);
+                }
+            }
+        }
+        return dp[n1][n2];
+
+
+    }
+     
+    
+public static int lcsubstringtab(String str1,String str2){
+        int n=str1.length();
+        int m=str2.length();
+        if(n1==0 || n2==0){
+            return 0;
+        }
+        int dp[][]=new dp[n+1][m+1];
+        int ans=0;
+        for(int i=0;i<n1;i++){
+            for(int j=0;j<n2;j++){
+                if(i==0 || j==0){
+                    dp[i][j]=0;
+                }
+            }
+        }
+        for(int i=1;i<n+1;i++){
+            for(int j=1;j<m+1;j++) {
+                if(str1.charAt(i-1)==str2.charAt(j-i)){
+                    dp[i][j]=dp[i-1][j-1]+1;
+                    ans=Math.max(ans,dp[i][j]);
+                }
+                else{ 
+                    dp[i][j]=0;
+                }
+            }
+        }
+        return ans;
+    }
+
+    public static int lcs(int []arr1,int[]arr2){
+        int n=arr1.length;
+        int m=arr2.length;
+        int dp[][]=new int[n+1][m+1];
+
+        for(int i=0;i<n+1;i++){
+            dp[i][0]=0;
+        }
+        for(int i=0;i<m+1;i++){
+            dp[0][i]=0;
+        }
+
+        for(int i=1;i<n+1;i++){
+            for(int j=1;j<m+1;j++){
+                if(arr1[i-1]==arr2[j-1]){
+                 dp[i][j]=dp[i-1][j-1]+1;   
+                }
+                else{
+                    dp[i][j]=Math.max(dp[i-1][j],dp[i][j-1]);
+                }
+            }
+        }
+        return dp[n][w];
+    }
+
+
+
+    public static int lis(int arr[]){
+        HashSet<Integer> hs=new HashSet<>();
+        for(int i=0;i<arr.length;i++){
+            hs.add(arr[i]);
+        }
+        int arr2[]=new int[hs.size()];
+        int i=0;
+        for(int num:set){
+            arr2[i]=num;
+            i++;
+        }
+        Arrays.sort(arr2);
+
+        return lcs(arr,arr2);
+    }
+
+
+    public static boolean wildcard(String p,String s){
+        int n=s.length();
+        int m=p.length();
+
+        boolean [][] dp=new int[n+1][m+1];
+
+        dp[0][0]=true;
+        for(int i=1;i<n+1;i++){
+            dp[i][0]=0;
+        }
+
+        for(int j=1;j<m+1;i++){
+            if(p.charAt(j-1)=='*'){
+                dp[0][j]=dp[0][j-1];
+            }
+            else{
+                dp[0][j]=false;
+            }
+        }
+        //bottom up
+        for(int i=1;i<n+1;i++){
+            for(int j=1;j<m+1;j++){
+                //case ->ith ==jth || jth==?
+                if(s.charAt(i-1)==p.charAt(j-1)||p.charAt(j-1)=='?'){
+                    dp[i][j]=dp[i-1][j-1];
+                }
+                else if(p.charAt(j-1)=='*'){
+                    dp[i][j]=dp[i-1][j-1] || dp[i][j-1];
+                }
+                else{
+                    dp[i][j]=false;
+                }
+            }
+        }
+            return dp[n][m];
+    }
+
+
 
 
 
