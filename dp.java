@@ -364,7 +364,7 @@ public static int lcsubstringtab(String str1,String str2){
 
         dp[0][0]=true;
         for(int i=1;i<n+1;i++){
-            dp[i][0]=0;
+            dp[i][0]=false;
         }
 
         for(int j=1;j<m+1;i++){
@@ -393,7 +393,95 @@ public static int lcsubstringtab(String str1,String str2){
             return dp[n][m];
     }
 
+    //catalan number 
+     //recursion
 
+     public static int catalanrecur(int n){
+        if(n==0||n==1){
+            return 1;
+        }
+        int ans=0;
+        for(int i=0;i<n;i++){
+            ans+=catalanrecur(i)*catalanrecur(n-i-1);
+        }
+        return ans;
+     }
+
+     //memoization
+
+     public static int catalanmem(int n,int []dp){
+        if(n==0||n==1){
+            return 1;
+        }
+        if(dp[n]!=0){
+            return dp[n];
+        }
+        int ans=0;
+        for(int i=0;i<n;i++){
+            ans+=catalanmem(i,dp)*catalanmem(n-i-1,dp);
+        }
+        return dp[n]=ans;
+     }
+
+     public static int catalantab(int n){
+        int dp[]=new int[n+1];
+
+        dp[0]=1;
+        dp[1]=1;
+
+        for(int i=2;i<n+1;i++){//Ci being calculated
+            for(int j=0;j<i;j++){
+                dp[i]+=dp[j]+dp[i-j-1];//Ci=Cj*Cj-i-1
+            }
+        }
+        return dp[n];
+     }
+
+     //Counting Trees
+     //find number of BST in N nodes
+       
+
+     public static int countBST(int n){
+        int dp[]=new int [n+1];
+
+        dp[0]=1;
+        dp[1]=1;
+
+        for(int i=2;i<n+1;i++){
+            for(int j=0;j<i;j++){
+                int left=dp[j];
+                int right=dp[i-j-1];
+                dp[i]+=left*right;
+            }
+        }
+        return dp[n];
+     }
+
+
+     //Mountains ranges
+     //the upstroke cant be less than downstrokes
+
+     public static int mountainrange(int n){
+        int dp[]=new int[n+1];
+
+        dp[0]=1;
+        dp[1]=1;
+
+        for(int i=2;i<n+1;i++){
+            for(int j=0;j<i;j++){
+                
+                dp[i]+=dp[j]+dp[i-j-1];
+            }
+        }
+        return dp[n];
+     }
+
+     //Matrix Basics
+     //Matrix Chain Multiplication
+
+     //arr[]1,2,3,4,3
+     //find min cost
+      
 
 
 
